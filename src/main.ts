@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { AppConfig } from './config/interface';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CustomLoggerService } from './infra/logger/logger.service';
+import { LogicExceptionFilter } from './infra/filters';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -12,7 +14,10 @@ async function bootstrap() {
 
   app.enableCors();
 
+  const logger = app.get(CustomLoggerService);
+
   app.setGlobalPrefix('api');
+  app.useGlobalFilters(new LogicExceptionFilter(logger));
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
@@ -28,6 +33,10 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(appConfig.listeningPort, '0.0.0.0');
-}
 
+  app.useLogger(logger);
+  logger.log(
+    `Listening on http://${appConfig.listeningIp}:${appConfig.listeningPort}`,
+  );
+}
 bootstrap();
