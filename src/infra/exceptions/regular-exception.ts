@@ -14,6 +14,10 @@ export const Exceptions: RegularExceptionType = {
     httpStatusCode: 404,
     message: 'User not found',
   },
+  [ExceptionsEnum.GAME_NOT_FOUND]: {
+    httpStatusCode: 404,
+    message: 'Game not found',
+  },
   [ExceptionsEnum.UNAUTHORIZED]: {
     httpStatusCode: 401,
     message: 'Unauthorized',
