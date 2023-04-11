@@ -5,8 +5,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
+import { Game } from '../game/game.entity';
 
 @Entity()
 export class User {
@@ -23,6 +26,10 @@ export class User {
   @ApiProperty()
   @Column()
   password!: string;
+
+  @ManyToMany(() => Game, (game) => game.users)
+  @JoinTable()
+  games: Game[];
 
   @CreateDateColumn({
     type: 'timestamp',
