@@ -7,6 +7,7 @@ import { CustomLoggerService } from './infra/logger/logger.service';
 import { LogicExceptionFilter } from './infra/filters';
 import { ValidationPipe } from '@nestjs/common';
 
+// TODO: завести мейлюку для рассылки(чуть позже), после этого протестить мейл(все должно быть чикапука)
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
