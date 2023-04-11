@@ -5,8 +5,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Game {
@@ -37,4 +39,7 @@ export class Game {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+
+  @ManyToMany(() => User, (user) => user.games)
+  users: User[];
 }
