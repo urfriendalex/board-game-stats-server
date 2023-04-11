@@ -22,6 +22,10 @@ export class UserService {
     return users;
   }
 
+  async getUserByEmail(email: string): Promise<User> {
+    return this.userRepository.getByEmail(email);
+  }
+
   async getUserById(id: string): Promise<User> {
     const user = await this.userRepository.getById(id);
     if (!user) {

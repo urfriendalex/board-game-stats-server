@@ -22,4 +22,16 @@ export const Exceptions: RegularExceptionType = {
     httpStatusCode: 401,
     message: 'Unauthorized',
   },
+  [ExceptionsEnum.PASSWORD_NOT_MATCH]: {
+    httpStatusCode: 400,
+    message: 'Passwords do not match',
+  },
+  [ExceptionsEnum.WRONG_CREDENTIALS]: {
+    httpStatusCode: 400,
+    message: 'Wrong credentials',
+  },
+  [ExceptionsEnum.EMAIL_ALREADY_EXISTS]: {
+    httpStatusCode: 400,
+    message: 'Email already exists',
+  },
 };

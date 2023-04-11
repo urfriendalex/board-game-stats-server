@@ -36,4 +36,11 @@ export class UserRepository implements IUserRepository {
   async delete(id: string): Promise<void> {
     await this.usersRepository.delete(id);
   }
+
+  async getByEmail(email: string): Promise<User> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .getOne();
+  }
 }
