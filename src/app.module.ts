@@ -7,6 +7,7 @@ import { appConfig, dbConfig, authConfig } from './config';
 import { LoggerModule } from './infra/logger/logger.module';
 import { UserModule } from './modules/user/user.module';
 import { GameModule } from './modules/game/game.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { GameModule } from './modules/game/game.module';
     LoggerModule,
     UserModule,
     GameModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

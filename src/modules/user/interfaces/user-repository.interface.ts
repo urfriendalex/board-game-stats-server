@@ -7,6 +7,7 @@ interface IUserRepository {
   getAll(): Promise<User[]>;
   delete(id: string): Promise<void>;
   update(id: string, user: UpdateUserDto);
+  getByEmail(email: string): Promise<User>;
 }
 
 export default IUserRepository;
