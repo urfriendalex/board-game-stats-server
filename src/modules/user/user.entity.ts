@@ -27,6 +27,12 @@ export class User {
   @Column()
   password!: string;
 
+  @Expose()
+  @ApiProperty()
+  @Column()
+  isInviteAccepted!: boolean;
+
+  @Expose()
   @ManyToMany(() => Game, (game) => game.users)
   @JoinTable()
   games: Game[];

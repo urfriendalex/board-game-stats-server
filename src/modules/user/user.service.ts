@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import crypto from 'crypto';
 
 import { LogicException } from 'src/infra/exceptions/logic-exception';
 import { Exceptions } from 'src/infra/exceptions/enum/exceptions.enum';
@@ -35,7 +36,14 @@ export class UserService {
   }
 
   async createUser(creationAttrs: CreateUserDto): Promise<User> {
-    const user = await this.userRepository.createAndSave(creationAttrs);
+    const tempPassword = crypto
+      .randomBytes(10)
+      .toString('base64')
+      .slice(0, length);
+    const user = await this.userRepository.createAndSave({
+      ...creationAttrs,
+      password: tempPassword,
+    });
     this.logger.log(`Created user: ${user.id}`);
     return user;
   }

@@ -6,13 +6,16 @@ import {
   Patch,
   Delete,
   Post,
+  HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { TypeOrmClassSerializerInterceptor } from 'src/infra/serializers/typeorm.serializer';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { JwtAuthenticationGuard } from '../auth/guard';
 
 @ApiTags('User')
 @Controller('user')
@@ -22,7 +25,7 @@ export class UserController {
   @Get()
   @TypeOrmClassSerializerInterceptor(User)
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     type: User,
     isArray: true,
   })
@@ -33,28 +36,27 @@ export class UserController {
   @Get(':id')
   @TypeOrmClassSerializerInterceptor(User)
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     type: User,
   })
   async getOne(@Param('id') id: string): Promise<User> {
     return this.userService.getUserById(id);
   }
 
-  @Post()
+  @ApiBearerAuth('bearer')
+  @UseGuards(JwtAuthenticationGuard)
+  @Post('/invite')
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     type: User,
   })
-  async createOne(
-    @Param('id') id: string,
-    @Body() createDto: CreateUserDto,
-  ): Promise<User> {
+  async createOne(@Body() createDto: CreateUserDto): Promise<User> {
     return this.userService.createUser(createDto);
   }
 
   @Patch(':id')
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     type: User,
   })
   @ApiParam({ name: 'id', type: String })
@@ -67,7 +69,7 @@ export class UserController {
 
   @Delete(':id')
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     type: User,
   })
   @ApiParam({ name: 'id', type: String })
